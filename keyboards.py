@@ -1,4 +1,4 @@
-cat <<EOF > keyboards.py
+
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 def main_kb():
