@@ -1,33 +1,39 @@
 import os
 import asyncio
+import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from dotenv import load_dotenv
 
-# Загружаем переменные (для локальной работы)
-load_dotenv()
+# 1. Настройка логирования — крайне важно, чтобы видеть ошибки в панели Amvera
+logging.basicConfig(level=logging.INFO)
 
-# Берем токен из переменных окружения
-# В Amvera мы его уже добавили в разделе "Переменные"
+# 2. Загрузка токена
+load_dotenv()
+# Amvera берет BOT_TOKEN из вкладки "Переменные"
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Инициализация бота и диспетчера
+# 3. Инициализация
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Обработчик команды /start
+# 4. Простой обработчик команды /start
 @dp.message(Command("start"))
-async def start_handler(message: types.Message):
-    await message.answer("Привет! Я живой и работаю на Amvera! Отправь мне что-нибудь.")
+async def cmd_start(message: types.Message):
+    await message.answer("✅ Бот успешно запущен и видит тебя!")
 
-# Обработчик любого текста (Эхо)
+# 5. Эхо-режим: бот просто повторяет твой текст
 @dp.message()
 async def echo_handler(message: types.Message):
-    await message.answer(f"Ты написал: {message.text}")
+    await message.answer(f"Бот работает! Ты написал: {message.text}")
 
+# 6. Точка входа (со всеми нужными подчеркиваниями)
 async def main():
-    print("Бот запущен и готов к работе...")
+    logging.info("--- ПОПЫТКА ЗАПУСКА БОТА ---")
     await dp.start_polling(bot)
 
 if name == "main":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        logging.info("Бот остановлен")
