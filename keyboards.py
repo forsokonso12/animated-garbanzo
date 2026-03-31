@@ -1,18 +1,30 @@
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+# Главное меню
+main_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [
+        # Вот здесь скобка закрывается строго В КОНЦЕ строки
+        InlineKeyboardButton(text="💰 ЗП Пришла!", callback_data="salary_arrived")
+    ],
+    [
+        InlineKeyboardButton(text="📉 Добавить расход", callback_data="add_expense"),
+        InlineKeyboardButton(text="📈 Добавить доход", callback_data="add_income")
+    ],
+    [
+        InlineKeyboardButton(text="📊 Статистика", callback_data="show_stats"),
+        InlineKeyboardButton(text="⚙️ Настройки", callback_data="settings")
+    ]
+])
 
-def main_kb():
-    return ReplyKeyboardMarkup(
-        keyboard=[
-            [KeyboardButton(text="📊 Баланс"), KeyboardButton(text="🏠 Обязательные траты")],
-            [KeyboardButton(text="📉 Долги и Вклады"), KeyboardButton(text="⚙️ Настройки")]
-        ],
-        resize_keyboard=True
-    )
+# Клавиатура отмены (если нужно прервать ввод данных)
+cancel_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="❌ Отмена", callback_data="cancel")]
+])
 
-def balance_inline_kb():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="💰 ЗП Пришла!"), callback_data="salary_arrived"],
-        [InlineKeyboardButton(text="📋 История"), callback_data="history"]
-    ])
-EOF
+# Клавиатура подтверждения
+confirm_kb = InlineKeyboardMarkup(inline_keyboard=[
+    [
+        InlineKeyboardButton(text="✅ Подтвердить", callback_data="confirm"),
+        InlineKeyboardButton(text="🔄 Изменить", callback_data="edit")
+    ]
+])
